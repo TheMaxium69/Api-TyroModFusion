@@ -81,7 +81,7 @@ if (!empty($_GET['item1']) && !empty($_GET['item2'])) {
             die();
         } else {
             if ($itemResult->customClass == 1 || $itemResult->customClass == 2) {
-                
+
                 if ($itemResult->className == "vanilla") {
                     echo json_encode("v" . $itemResult->tyroid);
                 } else {
