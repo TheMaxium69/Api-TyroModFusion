@@ -1,6 +1,6 @@
 <?php
 require "db.php";
-//header('Content-Type: application/json');
+header('Content-Type: application/json');
 
 if (!empty($_GET['item1']) && !empty($_GET['item2'])) {
 
@@ -79,9 +79,20 @@ if (!empty($_GET['item1']) && !empty($_GET['item2'])) {
         if (!$itemResult) {
             echo json_encode("err");
             die();
+        } else {
+            if ($itemResult->customClass == 1 || $itemResult->customClass == 2) {
+                
+                if ($itemResult->className == "vanilla") {
+                    echo json_encode("v" . $itemResult->tyroid);
+                } else {
+                    echo json_encode("c" . $itemResult->tyroid);
+                }
+
+            } else {
+                echo json_encode($itemResult->tyroid);
+            }
         }
 
-        echo json_encode($itemResult->tyroid);
 
 
 } else {
