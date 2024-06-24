@@ -74,7 +74,7 @@ if (!empty($_GET['itemResult'])) {
     $reponse[] = $tempItem;
 
     /* *
-     * FUSION
+     * FUSION RESULT
      * */
 
     $sql = "SELECT * FROM fusion WHERE itemResult = :itemResult";
@@ -155,6 +155,101 @@ if (!empty($_GET['itemResult'])) {
     }
 
     $reponse[] = $newFusion;
+
+    /* *
+     * FUSION IMPLICATION
+     * */
+
+    $fusionImplication = [];
+
+
+    $sql = "SELECT * FROM fusion WHERE item1 = :itemResult OR item2 = :itemResult";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([':itemResult' => $itemResult->id]);
+    $fusionImplication = $stmt->fetchAll();
+
+    if (!empty($fusionImplication)) {
+
+        foreach($fusionImplication as $fusionImplicationOne){
+
+            /* *
+             * REQUETE ID ITEM RESULT
+             * */
+
+            $sql = "SELECT * FROM item WHERE id = :itemResultID";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([':itemResultID' => $fusionImplicationOne->itemResult]);
+            $itemResultImplication = $stmt->fetch();
+
+            if (!$itemResultImplication) {
+                echo json_encode("err");
+                die();
+            }
+
+            /* *
+             * REQUETE ID ITEM 1
+             * */
+
+            $sql = "SELECT * FROM item WHERE id = :item1ID";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([':item1ID' => $fusionImplicationOne->item1]);
+            $item1Implication = $stmt->fetch();
+
+            if (!$item1Implication) {
+                echo json_encode("err");
+                die();
+            }
+
+            /* *
+             * REQUETE ID ITEM 2
+             * */
+
+            $sql = "SELECT * FROM item WHERE id = :item2ID";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([':item2ID' => $fusionImplicationOne->item2]);
+            $item2Implication = $stmt->fetch();
+
+            if (!$item2Implication) {
+                echo json_encode("err");
+                die();
+            }
+
+
+
+
+
+
+            if ($fusionImplicationOne->tier == 1){
+                $itemFuel = "mercure_ingot";
+            } else if ($fusionImplicationOne->tier == 2){
+                $itemFuel = "sunstone_ingot";
+            } else if ($fusionImplicationOne->tier == 3){
+                $itemFuel = "ium_ingot";
+            } else {
+                echo json_encode("err");
+                die();
+            }
+
+            $tempFusion2 = [
+                "id" => $fusionImplicationOne->id,
+                "tier" => $fusionImplicationOne->tier,
+                "item1" => $item1Implication->name,
+                "item2" => $item2Implication->name,
+                "itemResult" => $itemResultImplication->name,
+                "itemFuel" => $itemFuel,
+            ];
+
+            $fusionImplication[] = $tempFusion2;
+        }
+
+    }
+
+    $reponse[] = $fusionImplication;
+
+
+
+
+    
     echo json_encode($reponse);
 
 
