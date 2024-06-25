@@ -166,11 +166,11 @@ if (!empty($_GET['itemResult'])) {
     $sql = "SELECT * FROM fusion WHERE item1 = :itemResult OR item2 = :itemResult";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([':itemResult' => $itemResult->id]);
-    $fusionImplication = $stmt->fetchAll();
+    $fusionImplicationResult = $stmt->fetchAll();
 
-    if (!empty($fusionImplication)) {
+    if (!empty($fusionImplicationResult)) {
 
-        foreach($fusionImplication as $fusionImplicationOne){
+        foreach($fusionImplicationResult as $fusionImplicationOne){
 
             /* *
              * REQUETE ID ITEM RESULT
@@ -215,10 +215,6 @@ if (!empty($_GET['itemResult'])) {
             }
 
 
-
-
-
-
             if ($fusionImplicationOne->tier == 1){
                 $itemFuel = "mercure_ingot";
             } else if ($fusionImplicationOne->tier == 2){
@@ -249,7 +245,7 @@ if (!empty($_GET['itemResult'])) {
 
 
 
-    
+
     echo json_encode($reponse);
 
 
