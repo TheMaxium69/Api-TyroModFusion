@@ -95,8 +95,39 @@ if (!empty($_GET['item1']) && !empty($_GET['item2'])) {
 
 
 
+} else if (!empty($_GET['tier'])){
+
+    $tier = $_GET['tier'];
+
+    if ($tier == "final") {
+
+        $sql = "SELECT * FROM item WHERE id = :ultium_id";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([':ultium_id' => "2691"]);
+        $itemUltium = $stmt->fetch();
+
+
+        if (!$itemUltium) {
+            echo json_encode("err");
+            die();
+        } else {
+            if ($itemUltium->customClass == 1 || $itemUltium->customClass == 2) {
+
+                if ($itemUltium->className == "vanilla") {
+                    echo json_encode("v" . $itemUltium->tyroid);
+                } else {
+                    echo json_encode("c" . $itemUltium->tyroid);
+                }
+
+            } else {
+                echo json_encode($itemUltium->tyroid);
+            }
+        }
+
+    } else {
+        echo json_encode("err");
+    }
+
 } else {
-
     echo json_encode("err");
-
 }
