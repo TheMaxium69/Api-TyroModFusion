@@ -167,7 +167,7 @@ if (!empty($_GET['item1']) && !empty($_GET['item2']) && empty($_GET['tier'])) {
 
         $sql = "SELECT * FROM item WHERE id = :ultium_id";
         $stmt = $pdo->prepare($sql);
-        $stmt->execute([':ultium_id' => "2691"]);
+        $stmt->execute([':ultium_id' => "2692"]);
         $itemUltium = $stmt->fetch();
 
 
