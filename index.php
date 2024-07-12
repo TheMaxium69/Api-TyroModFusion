@@ -2,7 +2,7 @@
 require "db.php";
 header('Content-Type: application/json');
 
-if (!empty($_GET['item1']) && !empty($_GET['item2']) && empty($_GET['tier'])) {
+if (!empty($_GET['item1']) && !empty($_GET['item2']) && !empty($_GET['tier']) && $_GET['tier'] != "final") {
 
     $item1_name = (substr($_GET['item1'], 0, 5) === "item.") ? substr($_GET['item1'], 5) : $_GET['item1'];
     $item2_name = (substr($_GET['item2'], 0, 5) === "item.") ? substr($_GET['item2'], 5) : $_GET['item2'];
