@@ -89,7 +89,7 @@ if (!empty($_GET['item1']) && !empty($_GET['item2']) && !empty($_GET['tier']) &&
                 }
 
             } else {
-                echo json_encode($itemResult->tyroid);
+                echo json_encode(intval($itemResult->tyroid));
             }
         }
 
@@ -184,7 +184,7 @@ if (!empty($_GET['item1']) && !empty($_GET['item2']) && !empty($_GET['tier']) &&
                 }
 
             } else {
-                echo json_encode($itemUltium->tyroid);
+                echo json_encode(intval($itemUltium->tyroid));
             }
         }
 
